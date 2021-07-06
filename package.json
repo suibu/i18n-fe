@@ -19,5 +19,8 @@
   "homepage": "https://github.com/suibu/i18n-fe#readme",
   "devDependencies": {
     "lerna": "^4.0.0"
+  },
+  "dependencies": {
+    "dedent": "0.7.0"
   }
 }
