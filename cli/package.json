@@ -1,0 +1,18 @@
+{
+  "name": "@suibu-i18n-fe/cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "i18n-fe": "bin/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@suibu-i18n-fe/core": "1.0.0"
+  }
+}
