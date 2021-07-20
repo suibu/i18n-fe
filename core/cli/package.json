@@ -30,7 +30,7 @@
     "url": "https://github.com/suibu/i18n-fe/issues"
   },
   "dependencies": {
-    "@suibu-i18n-fe/utils": "file:../utils",
+    "@suibu-i18n-fe/utils": "file:../../utils/utils",
     "dedent": "0.7.0",
     "yargs": "^17.0.1"
   },

@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@suibu-i18n-fe/utils@file:../utils":
+"@suibu-i18n-fe/utils@file:../../utils/utils":
   version "1.0.4"
 
 ansi-regex@^5.0.0:
