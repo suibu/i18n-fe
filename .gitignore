@@ -1,6 +1,5 @@
 .vscode
 .idea
-package-lock.json
 
 node_modules
 packages/**/node_modules
