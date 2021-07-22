@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 
 const importLocal = require('import-local')
-console.log(__filename, importLocal(__filename))
-
+const log = require('@i18n-fe/log')
 if (importLocal(__filename)) {
-    require('npmlog').info('cli ', '正在使用本地i18n-fe ')
+    log.info('i18n-fe ', '正在使用本地i18n-fe脚手架')
 } else {
     require('../lib')(process.argv.slice(2))
 }

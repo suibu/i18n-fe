@@ -2,8 +2,13 @@
 # yarn lockfile v1
 
 
+"@i18n-fe/log@file:../../utils/log":
+  version "1.0.8"
+  dependencies:
+    npmlog "^4.1.2"
+
 "@i18n-fe/utils@file:../../utils/utils":
-  version "1.0.5"
+  version "1.0.8"
 
 ansi-regex@^2.0.0:
   version "2.1.1"

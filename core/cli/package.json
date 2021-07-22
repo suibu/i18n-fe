@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@i18n-fe/utils": "file:../../utils/utils",
+    "@i18n-fe/log": "file:../../utils/log",
     "dedent": "0.7.0",
     "import-local": "^3.0.2",
     "npmlog": "^4.1.2",
