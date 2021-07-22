@@ -1,5 +1,10 @@
 #!/usr/bin/env node
-const pkg = require('../package.json')
-const utils = require('@suibu-i18n-fe/utils')
-utils()
-console.log(pkg.version)
+
+const importLocal = require('import-local')
+console.log(__filename, importLocal(__filename))
+
+if (importLocal(__filename)) {
+    require('npmlog').info('cli ', '正在使用本地i18n-fe ')
+} else {
+    require('../lib')(process.argv.slice(2))
+}
