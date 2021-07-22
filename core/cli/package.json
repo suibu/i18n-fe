@@ -32,9 +32,11 @@
   "dependencies": {
     "@i18n-fe/log": "file:../../utils/log",
     "@i18n-fe/utils": "file:../../utils/utils",
+    "colors": "^1.4.0",
     "dedent": "0.7.0",
     "import-local": "^3.0.2",
     "npmlog": "^4.1.2",
+    "semver": "^7.3.5",
     "yargs": "^17.0.1"
   },
   "gitHead": "a707175a875a06b21dd08a5b3f7535712ffd8a7e"
