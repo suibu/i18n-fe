@@ -3,11 +3,12 @@
 module.exports = core;
 const semver = require('semver')
 const colors = require('colors/safe')
-const pkg = require('../package.json');
-
+const pathExists = require('path-exists').sync;
+const userHome = require('user-home')
 const utils = require('@i18n-fe/utils')
 const log = require('@i18n-fe/log')
 
+const pkg = require('../package.json');
 const constant = require('./const')
 
 function core() {
@@ -15,6 +16,7 @@ function core() {
         checkPkgVersion()
         checkNodeVersion()
         checkRoot()
+        checkUserHome()
     } catch(e) {
         log.error(e.message)
     }
@@ -33,6 +35,7 @@ function checkPkgVersion() {
     log.success('version', pkg.version)
 }
 
+// 检查root启动
 function checkRoot() {
     // 当前用户OS
     const curUserAuthCode = process.geteuid();
@@ -41,4 +44,11 @@ function checkRoot() {
     // 为什么要做这步操作：当root用户操作的一些文件后，普通用户在进来操作会有权限问题
     rootCheck()
     console.log(process.geteuid())
+}
+
+// 检查用户主目录
+function checkUserHome() {
+    if (!userHome || !pathExists(userHome)) {
+        throw new Error(colors.red(`主目录不存在`))
+    }
 }

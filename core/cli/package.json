@@ -36,8 +36,10 @@
     "dedent": "0.7.0",
     "import-local": "^3.0.2",
     "npmlog": "^4.1.2",
+    "path-exists": "^4.0.0",
     "root-check": "^1.0.0",
     "semver": "^7.3.5",
+    "user-home": "^3.0.0",
     "yargs": "^17.0.1"
   },
   "gitHead": "a707175a875a06b21dd08a5b3f7535712ffd8a7e"
