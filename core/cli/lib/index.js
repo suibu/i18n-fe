@@ -1,17 +1,24 @@
 'use strict';
 
 module.exports = core;
+
+// node内置库
+const path = require('path')
+
+// 依赖的外部库
 const semver = require('semver')
 const colors = require('colors/safe')
 const pathExists = require('path-exists').sync;
 const userHome = require('user-home')
+// 依赖的内部库
 const utils = require('@i18n-fe/utils')
 const log = require('@i18n-fe/log')
 
+// 变量区域
 const pkg = require('../package.json');
 const constant = require('./const')
 
-let args = {};
+let args = {}, config;
 
 function core() {
     try {
@@ -20,8 +27,7 @@ function core() {
         checkRoot()
         checkUserHome()
         checkInputArgs()
-        log.verbose('debug', 'test')
-
+        checkEnv()
     } catch(e) {
         log.error(e.message)
     }
@@ -50,7 +56,7 @@ function checkRoot() {
     rootCheck()
 }
 
-// 检查用户主目录
+// 检查用户主目录 userHome
 function checkUserHome() {
     if (!userHome || !pathExists(userHome)) {
         throw new Error(colors.red(`主目录不存在`))
@@ -67,8 +73,36 @@ function checkInputArgs() {
 function checkArgs(key) {
     if (args[key]) {
         process.env.LOG_LEVEL = 'verbose'
+        process.env.DEBUG = true
     } else {
         process.env.LOG_LEVEL = 'info'
+        process.env.DEBUG = false
+
     }
     log.level = process.env.LOG_LEVEL
+}
+
+function checkEnv() {
+    console.log(process.cwd())
+    const dotenv = require('dotenv');
+    // Default: path.resolve(process.cwd(), '.env') 默认是当前文件夹下的 .env文件
+    // 主目录环境
+    const envPath = path.resolve(userHome, '.env')
+    if (pathExists(envPath)) {
+        config = dotenv.config({ path: envPath })
+    } else {
+        config = createDefaultConfig()
+     }
+}
+
+// 创建默认用户主目录 .env
+function createDefaultConfig() {
+    // 若配置过cli文件，就去读。反之使用默认的
+    const _cliHome = process.env.CLI_HOME_FILENAME
+    const config = {
+        home: userHome,
+        cliHomePath: _cliHome ? path.join(userHome, _cliHome) : path.join(userHome, constant.DEFAULT_CLI_HOME_FILENAME)
+    }
+    process.env.CLI_HOME_PATH = config.cliHomePath
+    return config
 }

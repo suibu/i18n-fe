@@ -21,6 +21,7 @@
     "lerna": "^4.0.0"
   },
   "dependencies": {
-    "dedent": "0.7.0"
+    "dedent": "0.7.0",
+    "dotenv": "^10.0.0"
   }
 }
