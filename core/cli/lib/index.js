@@ -20,7 +20,7 @@ const constant = require('./const')
 
 let args = {}, config;
 
-function core() {
+async function core() {
     try {
         checkPkgVersion()
         checkNodeVersion()
@@ -28,6 +28,7 @@ function core() {
         checkUserHome()
         checkInputArgs()
         checkEnv()
+        await checkGlobalUpdate()
     } catch(e) {
         log.error(e.message)
     }
@@ -105,4 +106,21 @@ function createDefaultConfig() {
     }
     process.env.CLI_HOME_PATH = config.cliHomePath
     return config
+}
+
+// 功能：告诉用户可以升级版本
+async function checkGlobalUpdate() {
+    // 获取当前版本号和包名
+    const { name, version } = pkg;
+    // 调取 npm API，获取所有版本号
+    const { isLatestVersion, getNpmLatestVersion } = require("@i18n-fe/get-npm-info")
+    // 提取所有版本号，比对那些版本号是大于当前版本号
+    const isLatest = await isLatestVersion(name,version)
+    if(isLatest) {
+        const latestVersion = await getNpmLatestVersion(name,version)
+        log.warn(colors.yellow(`
+        建议安装最新版本
+        npm install ${name}@^${latestVersion} -g
+        yarn global add ${name}@^${latestVersion}`))
+    }
 }

@@ -30,9 +30,11 @@
     "url": "https://github.com/suibu/i18n-fe/issues"
   },
   "dependencies": {
+    "@i18n-fe/get-npm-info": "file:../../utils/get-npm-info",
     "@i18n-fe/log": "file:../../utils/log",
     "@i18n-fe/utils": "file:../../utils/utils",
     "colors": "^1.4.0",
+    "commander": "^8.0.0",
     "dedent": "0.7.0",
     "import-local": "^3.0.2",
     "minimist": "^1.2.5",

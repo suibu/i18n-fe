@@ -1,11 +1,11 @@
 {
-  "name": "@i18n-fe/log",
+  "name": "@i18n-fe/get-npm-info",
   "version": "1.0.11",
   "description": "> TODO: description",
   "author": "suibu <walk-liuyan@outlook.com>",
-  "homepage": "https://github.com/suibu/i18n-fe/tree/main/utils/log#readme",
+  "homepage": "https://github.com/suibu/i18n-fe/tree/main/utils/get-npm-info#readme",
   "license": "ISC",
-  "main": "lib",
+  "main": "lib/index.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -13,9 +13,6 @@
   "files": [
     "lib"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/suibu/i18n-fe.git"
@@ -27,6 +24,9 @@
     "url": "https://github.com/suibu/i18n-fe/issues"
   },
   "dependencies": {
-    "npmlog": "^4.1.2"
+    "@i18n-fe/log":"../log",
+    "axios": "^0.21.1",
+    "semver": "^7.3.5",
+    "url-join": "^4.0.1"
   }
 }
