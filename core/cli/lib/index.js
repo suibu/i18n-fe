@@ -11,12 +11,17 @@ const log = require('@i18n-fe/log')
 const pkg = require('../package.json');
 const constant = require('./const')
 
+let args = {};
+
 function core() {
     try {
         checkPkgVersion()
         checkNodeVersion()
         checkRoot()
         checkUserHome()
+        checkInputArgs()
+        log.verbose('debug', 'test')
+
     } catch(e) {
         log.error(e.message)
     }
@@ -43,7 +48,6 @@ function checkRoot() {
     // 实现原理是：root用户,process.getuid() === 0。普通用户，为501。若检测到是root用户，就降级操作process.seteuid()
     // 为什么要做这步操作：当root用户操作的一些文件后，普通用户在进来操作会有权限问题
     rootCheck()
-    console.log(process.geteuid())
 }
 
 // 检查用户主目录
@@ -51,4 +55,20 @@ function checkUserHome() {
     if (!userHome || !pathExists(userHome)) {
         throw new Error(colors.red(`主目录不存在`))
     }
+}
+
+// 检查入参
+function checkInputArgs() {
+    const minimist = require('minimist')
+    args = minimist(process.argv.slice(2))
+    checkArgs('debug');
+}
+
+function checkArgs(key) {
+    if (args[key]) {
+        process.env.LOG_LEVEL = 'verbose'
+    } else {
+        process.env.LOG_LEVEL = 'info'
+    }
+    log.level = process.env.LOG_LEVEL
 }
