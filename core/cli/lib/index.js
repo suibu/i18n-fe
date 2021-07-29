@@ -11,8 +11,7 @@ const colors = require('colors/safe')
 const pathExists = require('path-exists').sync;
 const userHome = require('user-home')
 const commander = require('commander');
-const { Command } = commander
-
+const { program, Command } = commander
 // 依赖的内部库
 const utils = require('@i18n-fe/utils')
 const log = require('@i18n-fe/log')
@@ -29,7 +28,7 @@ async function core() {
         checkNodeVersion()
         checkRoot()
         checkUserHome()
-        checkInputArgs()
+        // checkInputArgs()
         checkEnv()
         await checkGlobalUpdate()
         injectCommand()
@@ -129,9 +128,42 @@ async function checkGlobalUpdate() {
     }
 }
 
-const program = new Command()
 function injectCommand() {
-    program.version(pkg.version);
+    const cliName = Object.keys(pkg.bin)[0]
+    // 基础配置
+    program
+        .name(cliName)
+        .version(pkg.version)
+        .usage('<command> [options]')
+        .option('-d, --debug', '启动debug模式', false);
+
+    // 开启debug模式
+    program.on('option:debug',  function () {
+        if (this.opts().debug) {
+            process.env.LOG_LEVEL = 'verbose'
+            process.env.DEBUG = '1'
+        } else {
+            process.env.LOG_LEVEL = 'info'
+            process.env.DEBUG = '0'
+        }
+        log.level = process.env.LOG_LEVEL
+    })
+
+
+    // 对未知的命令进行监听
+    program.on('command:*', function (operands) {
+        console.log(colors.red(`unknown command '${operands[0]}'`))
+        const availableCommands = program.commands.map(cmd => cmd.name());
+        if (availableCommands.length === 0) {
+            console.log(colors.red(`available commands: '${availableCommands}'`))
+        }
+        process.exitCode = 1;
+    });
 
     program.parse(process.argv);
+
+    // 若 <command> 都没有输入，给用户一个帮助文档
+    if(program.args && program.args.length < 1) {
+        program.outputHelp()
+    }
 }
