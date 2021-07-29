@@ -1,6 +1,6 @@
 {
   "name": "@i18n-fe/utils",
-  "version": "1.0.11",
+  "version": "1.0.15",
   "description": "> TODO: description",
   "author": "suibu <walk-liuyan@outlook.com>",
   "homepage": "https://github.com/suibu/i18n-fe/tree/main/packages/utils#readme",
@@ -26,5 +26,5 @@
   "bugs": {
     "url": "https://github.com/suibu/i18n-fe/issues"
   },
-  "gitHead": "a707175a875a06b21dd08a5b3f7535712ffd8a7e"
+  "gitHead": "cf08af46ce322d4c5fb6ad3054e87bf59a284ee6"
 }
