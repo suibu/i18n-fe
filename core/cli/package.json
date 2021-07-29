@@ -7,7 +7,7 @@
   "license": "ISC",
   "main": "lib/index.js",
   "bin": {
-    "i18n-fe": "bin/commander.js"
+    "i18n-fe": "bin/index.js"
   },
   "directories": {
     "lib": "lib",

@@ -10,6 +10,9 @@ const semver = require('semver')
 const colors = require('colors/safe')
 const pathExists = require('path-exists').sync;
 const userHome = require('user-home')
+const commander = require('commander');
+const { Command } = commander
+
 // 依赖的内部库
 const utils = require('@i18n-fe/utils')
 const log = require('@i18n-fe/log')
@@ -29,6 +32,7 @@ async function core() {
         checkInputArgs()
         checkEnv()
         await checkGlobalUpdate()
+        injectCommand()
     } catch(e) {
         log.error(e.message)
     }
@@ -74,17 +78,17 @@ function checkInputArgs() {
 function checkArgs(key) {
     if (args[key]) {
         process.env.LOG_LEVEL = 'verbose'
-        process.env.DEBUG = true
+        process.env.DEBUG = '1'
     } else {
         process.env.LOG_LEVEL = 'info'
-        process.env.DEBUG = false
+        process.env.DEBUG = '0'
 
     }
     log.level = process.env.LOG_LEVEL
 }
 
 function checkEnv() {
-    console.log(process.cwd())
+    // process.cwd() 获得当前路径
     const dotenv = require('dotenv');
     // Default: path.resolve(process.cwd(), '.env') 默认是当前文件夹下的 .env文件
     // 主目录环境
@@ -116,11 +120,18 @@ async function checkGlobalUpdate() {
     const { isLatestVersion, getNpmLatestVersion } = require("@i18n-fe/get-npm-info")
     // 提取所有版本号，比对那些版本号是大于当前版本号
     const isLatest = await isLatestVersion(name,version)
-    if(isLatest) {
+    if(!isLatest) {
         const latestVersion = await getNpmLatestVersion(name,version)
         log.warn(colors.yellow(`
         建议安装最新版本
         npm install ${name}@^${latestVersion} -g
         yarn global add ${name}@^${latestVersion}`))
     }
+}
+
+const program = new Command()
+function injectCommand() {
+    program.version(pkg.version);
+
+    program.parse(process.argv);
 }

@@ -1,21 +1,14 @@
 'use strict';
 
-module.exports = {
-    getNpmInfo,
-    getVersions,
-    getNpmLatestVersion,isLatestVersion
-};
 const axios = require('axios')
 const urlJoin = require('url-join')
 const semver = require('semver')
 const log = require('@i18n-fe/log')
 
 async function getNpmInfo(npmName, registry) {
-    console.log(npmName, registry)
     if(!npmName) return null
     const domain = registry || getDefaultRegistry()
     const url = urlJoin(domain, npmName)
-    console.log(url)
     try {
         const res = await axios.get(url)
         const { status, data } = res
@@ -63,3 +56,10 @@ async function isLatestVersion(name, version, registry) {
     }
     return true;
 }
+
+module.exports = {
+    getNpmInfo,
+    getVersions,
+    getNpmLatestVersion,
+    isLatestVersion
+};
