@@ -15,6 +15,9 @@ const { program, Command } = commander
 // 依赖的内部库
 const utils = require('@i18n-fe/utils')
 const log = require('@i18n-fe/log')
+// command 区域
+const init = require('@i18n-fe/init')
+
 
 // 变量区域
 const pkg = require('../package.json');
@@ -150,6 +153,11 @@ function injectCommand() {
     })
 
 
+    program
+        .command('init [projectName]')
+        .option('-f, --force', '是否强制初始化', false)
+        .action(init)
+
     // 对未知的命令进行监听
     program.on('command:*', function (operands) {
         console.log(colors.red(`unknown command '${operands[0]}'`))
@@ -159,6 +167,7 @@ function injectCommand() {
         }
         process.exitCode = 1;
     });
+
 
     program.parse(process.argv);
 
