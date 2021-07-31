@@ -1,8 +1,9 @@
 'use strict';
 
-module.exports = init;
+const log = require('@i18n-fe/log')
 
-function init(name, options) {
-    console.log(name, options)
-    // TODO
+function init(name, opts) {
+    console.log(name, opts)
 }
+
+module.exports = init;

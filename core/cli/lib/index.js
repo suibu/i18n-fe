@@ -23,22 +23,27 @@ const init = require('@i18n-fe/init')
 const pkg = require('../package.json');
 const constant = require('./const')
 
-let args = {}, config;
+let config;
 
 async function core() {
     try {
-        checkPkgVersion()
+        prepare()
         checkNodeVersion()
-        checkRoot()
-        checkUserHome()
-        // checkInputArgs()
-        checkEnv()
-        await checkGlobalUpdate()
+
         injectCommand()
     } catch(e) {
         log.error(e.message)
     }
 }
+async function prepare() {
+    checkPkgVersion()
+    checkRoot()
+    checkUserHome()
+    // checkInputArgs()
+    checkEnv()
+    await checkGlobalUpdate()
+}
+
 function checkNodeVersion() {
 // 1、当前node version
     const curVersion = process.version;
@@ -68,25 +73,6 @@ function checkUserHome() {
     if (!userHome || !pathExists(userHome)) {
         throw new Error(colors.red(`主目录不存在`))
     }
-}
-
-// 检查入参
-function checkInputArgs() {
-    const minimist = require('minimist')
-    args = minimist(process.argv.slice(2))
-    checkArgs('debug');
-}
-
-function checkArgs(key) {
-    if (args[key]) {
-        process.env.LOG_LEVEL = 'verbose'
-        process.env.DEBUG = '1'
-    } else {
-        process.env.LOG_LEVEL = 'info'
-        process.env.DEBUG = '0'
-
-    }
-    log.level = process.env.LOG_LEVEL
 }
 
 function checkEnv() {
@@ -138,11 +124,14 @@ function injectCommand() {
         .name(cliName)
         .version(pkg.version)
         .usage('<command> [options]')
-        .option('-d, --debug', '启动debug模式', false);
+        // 注册到全局的 [options]
+        .option('-d, --debug', '启动debug模式', false)
+        .option('-tp, --targetPath <targetPath>', '是否指定本地调试文件路径', '');
 
-    // 开启debug模式
-    program.on('option:debug',  function () {
-        if (this.opts().debug) {
+
+    // 监听[options]:debug -> 开启debug模式
+    program.on('option:debug',  function (debug) {
+        if (debug) {
             process.env.LOG_LEVEL = 'verbose'
             process.env.DEBUG = '1'
         } else {
@@ -151,8 +140,11 @@ function injectCommand() {
         }
         log.level = process.env.LOG_LEVEL
     })
-
-
+    // 监听[options]:targetPath ->
+    program.on('option:targetPath',  function (targetPath) {
+        console.log(targetPath)
+        process.env.CLI_TARGET_PATH = targetPath
+    })
     program
         .command('init [projectName]')
         .option('-f, --force', '是否强制初始化', false)
