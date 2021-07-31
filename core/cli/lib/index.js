@@ -2,18 +2,14 @@
 
 module.exports = core;
 
-// node内置库
-const path = require('path')
-
 // 依赖的外部库
 const semver = require('semver')
 const colors = require('colors/safe')
-const pathExists = require('path-exists').sync;
-const userHome = require('user-home')
 const commander = require('commander');
 const { program, Command } = commander
 // 依赖的内部库
-const utils = require('@i18n-fe/utils')
+const exec = require('@i18n-fe/exec')
+// const utils = require('@i18n-fe/utils')
 const log = require('@i18n-fe/log')
 // command 区域
 const init = require('@i18n-fe/init')
@@ -23,25 +19,27 @@ const init = require('@i18n-fe/init')
 const pkg = require('../package.json');
 const constant = require('./const')
 
-let config;
+// utils
+const preCheck = require('./prepare/check')
 
 async function core() {
     try {
-        prepare()
+        await prepare(pkg)
         checkNodeVersion()
 
-        injectCommand()
+        registryCommand()
     } catch(e) {
         log.error(e.message)
     }
 }
-async function prepare() {
-    checkPkgVersion()
-    checkRoot()
-    checkUserHome()
-    // checkInputArgs()
-    checkEnv()
-    await checkGlobalUpdate()
+
+async function prepare(pkg) {
+    // preCheck.config
+    preCheck.pkgVersion(pkg)
+    preCheck.userAuth()
+    preCheck.userHome()
+    preCheck.cliEnv()
+    await preCheck.globalUpdate(pkg)
 }
 
 function checkNodeVersion() {
@@ -54,70 +52,8 @@ function checkNodeVersion() {
     }
 }
 
-function checkPkgVersion() {
-    log.success('version', pkg.version)
-}
 
-// 检查root启动
-function checkRoot() {
-    // 当前用户OS
-    const curUserAuthCode = process.geteuid();
-    const rootCheck = require('root-check');
-    // 实现原理是：root用户,process.getuid() === 0。普通用户，为501。若检测到是root用户，就降级操作process.seteuid()
-    // 为什么要做这步操作：当root用户操作的一些文件后，普通用户在进来操作会有权限问题
-    rootCheck()
-}
-
-// 检查用户主目录 userHome
-function checkUserHome() {
-    if (!userHome || !pathExists(userHome)) {
-        throw new Error(colors.red(`主目录不存在`))
-    }
-}
-
-function checkEnv() {
-    // process.cwd() 获得当前路径
-    const dotenv = require('dotenv');
-    // Default: path.resolve(process.cwd(), '.env') 默认是当前文件夹下的 .env文件
-    // 主目录环境
-    const envPath = path.resolve(userHome, '.env')
-    if (pathExists(envPath)) {
-        config = dotenv.config({ path: envPath })
-    } else {
-        config = createDefaultConfig()
-     }
-}
-
-// 创建默认用户主目录 .env
-function createDefaultConfig() {
-    // 若配置过cli文件，就去读。反之使用默认的
-    const _cliHome = process.env.CLI_HOME_FILENAME
-    const config = {
-        home: userHome,
-        cliHomePath: _cliHome ? path.join(userHome, _cliHome) : path.join(userHome, constant.DEFAULT_CLI_HOME_FILENAME)
-    }
-    process.env.CLI_HOME_PATH = config.cliHomePath
-    return config
-}
-
-// 功能：告诉用户可以升级版本
-async function checkGlobalUpdate() {
-    // 获取当前版本号和包名
-    const { name, version } = pkg;
-    // 调取 npm API，获取所有版本号
-    const { isLatestVersion, getNpmLatestVersion } = require("@i18n-fe/get-npm-info")
-    // 提取所有版本号，比对那些版本号是大于当前版本号
-    const isLatest = await isLatestVersion(name,version)
-    if(!isLatest) {
-        const latestVersion = await getNpmLatestVersion(name,version)
-        log.warn(colors.yellow(`
-        建议安装最新版本
-        npm install ${name}@^${latestVersion} -g
-        yarn global add ${name}@^${latestVersion}`))
-    }
-}
-
-function injectCommand() {
+function registryCommand() {
     const cliName = Object.keys(pkg.bin)[0]
     // 基础配置
     program
