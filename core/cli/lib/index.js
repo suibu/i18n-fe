@@ -15,9 +15,10 @@ const log = require('@i18n-fe/log')
 const init = require('@i18n-fe/init')
 
 
+
 // 变量区域
 const pkg = require('../package.json');
-const constant = require('./const')
+const constant = require('./constant')
 
 // utils
 const preCheck = require('./prepare/check')
@@ -33,6 +34,7 @@ async function core() {
     }
 }
 
+// 跑脚手架钱的预检
 async function prepare(pkg) {
     // preCheck.config
     preCheck.pkgVersion(pkg)
@@ -66,8 +68,9 @@ function registryCommand() {
 
 
     // 监听[options]:debug -> 开启debug模式
-    program.on('option:debug',  function (debug) {
-        if (debug) {
+    program.on('option:debug',  function () {
+        console.log('this.opts().debug', typeof this.opts().debug)
+        if (this.opts().debug) {
             process.env.LOG_LEVEL = 'verbose'
             process.env.DEBUG = '1'
         } else {
@@ -77,21 +80,21 @@ function registryCommand() {
         log.level = process.env.LOG_LEVEL
     })
     // 监听[options]:targetPath ->
-    program.on('option:targetPath',  function (targetPath) {
-        console.log(targetPath)
+    program.on('option:targetPath',  function () {
+        const targetPath = this.opts().targetPath || null;
         process.env.CLI_TARGET_PATH = targetPath
     })
     program
         .command('init [projectName]')
         .option('-f, --force', '是否强制初始化', false)
-        .action(init)
+        .action(exec)
 
     // 对未知的命令进行监听
     program.on('command:*', function (operands) {
-        console.log(colors.red(`unknown command '${operands[0]}'`))
+        console.warn(colors.red(`unknown command '${operands[0]}'`))
         const availableCommands = program.commands.map(cmd => cmd.name());
         if (availableCommands.length === 0) {
-            console.log(colors.red(`available commands: '${availableCommands}'`))
+            console.warn(colors.red(`available commands: '${availableCommands}'`))
         }
         process.exitCode = 1;
     });

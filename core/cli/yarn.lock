@@ -4,6 +4,8 @@
 
 "@i18n-fe/exec@file:../exec":
   version "1.0.0"
+  dependencies:
+    "@i18n-fe/package" "file:../../../../Library/Caches/Yarn/v6/npm-@i18n-fe-exec-1.0.0-fba266d4-da94-447e-af75-f7f198547bda-1627909618107/node_modules/models/package"
 
 "@i18n-fe/get-npm-info@file:../../utils/get-npm-info":
   version "1.0.16"
@@ -16,7 +18,7 @@
 "@i18n-fe/init@file:../../commands/init":
   version "1.0.0"
   dependencies:
-    "@i18n-fe/log" "file:../../../../Library/Caches/Yarn/v6/npm-@i18n-fe-init-1.0.0-d6a5b70f-2fe7-43ea-ae5d-557250b8ba6e-1627727488976/node_modules/utils/log"
+    "@i18n-fe/log" "file:../../../../Library/Caches/Yarn/v6/npm-@i18n-fe-init-1.0.0-a3ffbd00-77bc-4b58-b5df-27a1279787da-1627909618105/node_modules/utils/log"
 
 "@i18n-fe/log@^1.0.16":
   version "1.0.16"
@@ -29,6 +31,9 @@
   version "1.0.16"
   dependencies:
     npmlog "^4.1.2"
+
+"@i18n-fe/package@file:../../models/package":
+  version "1.0.0"
 
 "@i18n-fe/utils@file:../../utils/utils":
   version "1.0.16"

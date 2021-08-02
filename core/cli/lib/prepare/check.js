@@ -5,7 +5,13 @@ const path = require('path')
 // 依赖的外部库
 const userHome = require('user-home')
 const pathExists = require('path-exists').sync;
+const colors = require('colors/safe')
+
+// 依赖的内部库
 const log = require('@i18n-fe/log')
+
+// 变量区域
+const constant = require('../constant')
 
 class Check {
     config = null;
@@ -18,7 +24,7 @@ class Check {
 
 // 检查root启动
     userAuth() {
-        // 当前用户OS
+        // 当前用户 OS
         const curUserAuthCode = process.geteuid();
         require('root-check')();
         // 实现原理是：root用户,process.getuid() === 0。普通用户，为501。若检测到是root用户，就降级操作process.seteuid()
@@ -32,6 +38,7 @@ class Check {
         }
     }
 
+    // 脚手架环境的生成
     cliEnv() {
         // process.cwd() 获得当前路径
         const dotenv = require('dotenv');
@@ -48,13 +55,14 @@ class Check {
 // 创建默认用户主目录 .env
     createDefaultConfig() {
         // 若配置过cli文件，就去读。反之使用默认的
-        const _cliHome = process.env.CLI_HOME_FILENAME
-        const config = {
+        const _cliEnv = process.env.CLI_HOME_FILENAME;
+        const filename = _cliEnv ? _cliEnv : constant.DEFAULT_CLI_ENV_FILENAME;
+        const cliEnvPath = path.join(userHome, filename);
+        process.env.CLI_ENV_PATH = cliEnvPath
+        return {
             home: userHome,
-            cliHomePath: _cliHome ? path.join(userHome, _cliHome) : path.join(userHome, constant.DEFAULT_CLI_HOME_FILENAME)
+            cliEnvPath
         }
-        process.env.CLI_HOME_PATH = config.cliHomePath
-        return config
     }
 
     // 功能：告诉用户可以升级版本

@@ -1,9 +1,9 @@
 {
-  "name": "@i18n-fe/exec",
+  "name": "@i18n-fe/package",
   "version": "1.0.0",
-  "description": "dynamic execute assign package",
+  "description": "npm modules",
   "author": "suibu <walk-liuyan@outlook.com>",
-  "homepage": "https://github.com/suibu/i18n-fe/tree/main/core/exec#readme",
+  "homepage": "https://github.com/suibu/i18n-fe/tree/main/core/package#readme",
   "license": "ISC",
   "main": "lib/index.js",
   "directories": {
@@ -14,12 +14,7 @@
     "lib"
   ],
   "publishConfig": {
-    "access": "public"
-  },
-  "dependencies": {
-    "@i18n-fe/log": "file:../../utils/log",
-    "@i18n-fe/package": "file:../../models/package",
-    "@i18n-fe/utils": "file:../../utils/utils"
+    "registry": "http://npm-registry.qunhequnhe.com/"
   },
   "repository": {
     "type": "git",
@@ -30,5 +25,8 @@
   },
   "bugs": {
     "url": "https://github.com/suibu/i18n-fe/issues"
+  },
+  "dependencies": {
+    "@i18n-fe/utils": "file:../../utils/utils"
   }
 }
