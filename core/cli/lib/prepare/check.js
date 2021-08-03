@@ -46,7 +46,7 @@ class Check {
         // 主目录环境
         const envPath = path.resolve(userHome, '.env')
         if (pathExists(envPath)) {
-            this.config = dotenv.config({ path: envPath })
+            this.config = dotenv.config({ path: envPath }).parsed
         } else {
             this.config = this.createDefaultConfig()
         }
@@ -56,7 +56,7 @@ class Check {
     createDefaultConfig() {
         // 若配置过cli文件，就去读。反之使用默认的
         const _cliEnv = process.env.CLI_HOME_FILENAME;
-        const filename = _cliEnv ? _cliEnv : constant.DEFAULT_CLI_ENV_FILENAME;
+        const filename = _cliEnv ?? constant.DEFAULT_CLI_ENV_FILENAME;
         const cliEnvPath = path.join(userHome, filename);
         process.env.CLI_ENV_PATH = cliEnvPath
         return {
@@ -79,6 +79,16 @@ class Check {
         建议安装最新版本
         npm install ${name}@^${latestVersion} -g
         yarn global add ${name}@^${latestVersion}`))
+        }
+    }
+
+    nodeVersion() {
+        // 1、当前node version
+        const curVersion = process.version;
+        // 2、比对 当前版本与最低版本
+        const lowestVersion = constant.LOWEST_NODE_VERSION
+        if (!semver.gte(curVersion, lowestVersion)) {
+            throw new Error(colors.red(`need more than node v14 +`))
         }
     }
 

@@ -14,7 +14,10 @@
     "lib"
   ],
   "publishConfig": {
-    "registry": "http://npm-registry.qunhequnhe.com/"
+    "access": "public"
+  },
+  "dependencies": {
+    "@i18n-fe/log": "file:../log"
   },
   "repository": {
     "type": "git",

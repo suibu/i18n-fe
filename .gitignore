@@ -2,7 +2,10 @@
 .idea
 
 node_modules
-packages/**/node_modules
 lerna-debug.log
+yarn.lock
+yarn-error.log
 
+packages/**/node_modules
 packages/**/yarn.lock
+packages/**/yarn-error.log

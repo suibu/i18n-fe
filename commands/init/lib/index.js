@@ -3,7 +3,7 @@
 const log = require('@i18n-fe/log')
 
 function init(name, opts) {
-    console.log(name, opts)
+    log.success('init---', name, opts)
 }
 
 module.exports = init;

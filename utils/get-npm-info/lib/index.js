@@ -9,15 +9,15 @@ async function getNpmInfo(npmName, registry) {
     if(!npmName) return null
     const domain = registry || getDefaultRegistry()
     const url = urlJoin(domain, npmName)
+    log.module('url', url)
     try {
         const res = await axios.get(url)
         const { status, data } = res
         if (status===200) {
             return data;
         }
-        throw new Error('获取npm信息发生错误')
     } catch (e) {
-        log.error(e.message)
+        log.error('获取npm信息发生错误', e.message)
         return null
     }
 
