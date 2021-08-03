@@ -1,6 +1,6 @@
 {
   "name": "@i18n-fe/get-npm-info",
-  "version": "1.0.16",
+  "version": "1.0.18",
   "description": "> TODO: description",
   "author": "suibu <walk-liuyan@outlook.com>",
   "homepage": "https://github.com/suibu/i18n-fe/tree/main/utils/get-npm-info#readme",
@@ -27,10 +27,10 @@
     "url": "https://github.com/suibu/i18n-fe/issues"
   },
   "dependencies": {
-    "@i18n-fe/log": "^1.0.16",
+    "@i18n-fe/log": "^1.0.18",
     "axios": "^0.21.1",
     "semver": "^7.3.5",
     "url-join": "^4.0.1"
   },
-  "gitHead": "cf08af46ce322d4c5fb6ad3054e87bf59a284ee6"
+  "gitHead": "3e8dba998f1c3f19edd98e18c4c55e37dffe9527"
 }

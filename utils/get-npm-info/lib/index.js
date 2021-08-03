@@ -9,15 +9,15 @@ async function getNpmInfo(npmName, registry) {
     if(!npmName) return null
     const domain = registry || getDefaultRegistry()
     const url = urlJoin(domain, npmName)
+    log.module('url', url)
     try {
         const res = await axios.get(url)
         const { status, data } = res
         if (status===200) {
             return data;
         }
-        throw new Error('获取npm信息发生错误')
     } catch (e) {
-        log.error(e.message)
+        log.error('获取npm信息发生错误', e.message)
         return null
     }
 
@@ -37,11 +37,19 @@ async function getVersions(name, registry) {
 
 async function getNpmLatestVersion(name, version, registry) {
     const versions = await getVersions(name, registry)
+    console.log(versions, version)
     const satisfyVersions = getSemverVersions(version, versions)
+    console.log(satisfyVersions)
     if(satisfyVersions && satisfyVersions.length>0) {
         return satisfyVersions[0]
     }
     return '1.0.0'
+}
+
+// 返回最新版本的具体版本号
+async function getNpmLatestVersionNum(name, registry) {
+    const versions = await getVersions(name, registry)
+    return versions[0] || '1.0.0'
 }
 
 function getSemverVersions(baseVersion, versions) {
@@ -61,6 +69,7 @@ module.exports = {
     getNpmInfo,
     getVersions,
     getNpmLatestVersion,
+    getNpmLatestVersionNum,
     isLatestVersion,
     getDefaultRegistry
 };

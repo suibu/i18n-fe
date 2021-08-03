@@ -11,4 +11,11 @@ npmlog.headingStyle = { fg: 'white', bg: 'green' }
 // 添加自定义命令
 npmlog.addLevel('success', 2000, { fg: 'green', bold: true })
 
+npmlog.module = function () {
+    const [module, ...message] = arguments
+    npmlog.addLevel(module, 1000, { fg: 'yellow', bg: 'white', bold: true }, module)
+    const msg = message.join(' ');
+    npmlog[module](msg)
+}
+
 module.exports = npmlog;

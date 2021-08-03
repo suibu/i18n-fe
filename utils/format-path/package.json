@@ -1,6 +1,6 @@
 {
   "name": "@i18n-fe/format-path",
-  "version": "1.0.0",
+  "version": "1.0.18",
   "description": "Compatible with the path",
   "author": "suibu <walk-liuyan@outlook.com>",
   "homepage": "https://github.com/suibu/i18n-fe/tree/main/core/format-path#readme",
@@ -14,7 +14,10 @@
     "lib"
   ],
   "publishConfig": {
-    "registry": "http://npm-registry.qunhequnhe.com/"
+    "access": "public"
+  },
+  "dependencies": {
+    "@i18n-fe/log": "^1.0.18"
   },
   "repository": {
     "type": "git",
@@ -25,5 +28,6 @@
   },
   "bugs": {
     "url": "https://github.com/suibu/i18n-fe/issues"
-  }
+  },
+  "gitHead": "3e8dba998f1c3f19edd98e18c4c55e37dffe9527"
 }
