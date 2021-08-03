@@ -61,5 +61,6 @@ module.exports = {
     getNpmInfo,
     getVersions,
     getNpmLatestVersion,
-    isLatestVersion
+    isLatestVersion,
+    getDefaultRegistry
 };

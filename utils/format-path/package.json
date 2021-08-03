@@ -1,9 +1,9 @@
 {
-  "name": "@i18n-fe/package",
+  "name": "@i18n-fe/format-path",
   "version": "1.0.0",
-  "description": "npm modules",
+  "description": "Compatible with the path",
   "author": "suibu <walk-liuyan@outlook.com>",
-  "homepage": "https://github.com/suibu/i18n-fe/tree/main/core/package#readme",
+  "homepage": "https://github.com/suibu/i18n-fe/tree/main/core/format-path#readme",
   "license": "ISC",
   "main": "lib/index.js",
   "directories": {
@@ -25,12 +25,5 @@
   },
   "bugs": {
     "url": "https://github.com/suibu/i18n-fe/issues"
-  },
-  "dependencies": {
-    "@i18n-fe/format-path": "file:../../utils/format-path",
-    "@i18n-fe/get-npm-info": "file:../../utils/get-npm-info",
-    "@i18n-fe/utils": "file:../../utils/utils",
-    "npminstall": "4.11.0",
-    "pkg-dir": "5.0.0"
   }
 }
