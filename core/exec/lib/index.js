@@ -37,7 +37,9 @@ async function exec() {
     } else {
         // 指定文件去执行
         pkg = new Package({ targetPath, name: pkgName, version: pkgVersion });
-        const entryFile = pkg.entryFilePath
+    }
+    const entryFile = pkg.entryFilePath()
+    if (entryFile) {
         require(entryFile)(pkgName, this.opts())
     }
 }

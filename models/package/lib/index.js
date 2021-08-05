@@ -36,10 +36,11 @@ class Package {
 
     // 获取入口文件路径(逐层向上查找package.json所在层级)
     entryFilePath() {
-        try {
+            // 如果有缓存文件夹，就去缓存文件夹去找执行文件
             if (this.storePath) {
                 return _getRootFile(this.cacheFilePath);
             } else {
+                // 反之去找 指定文件夹中的入口文件
                 return _getRootFile(this.targetPath);
             }
             function _getRootFile(targetPath) {
@@ -56,10 +57,6 @@ class Package {
                 }
                 return null;
             }
-
-        } catch (e) {
-            log.error(e.message)
-        }
     }
 
     get cacheFilePathPrefix() {
