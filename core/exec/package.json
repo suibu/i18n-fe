@@ -1,6 +1,6 @@
 {
   "name": "@i18n-fe/exec",
-  "version": "1.0.17-alpha.0",
+  "version": "1.0.17",
   "description": "dynamic execute assign package",
   "author": "suibu <walk-liuyan@outlook.com>",
   "homepage": "https://github.com/suibu/i18n-fe/tree/main/core/exec#readme",
@@ -17,9 +17,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@i18n-fe/log": "^1.0.17-alpha.0",
-    "@i18n-fe/package": "^1.0.17-alpha.0",
-    "@i18n-fe/utils": "^1.0.17-alpha.0"
+    "@i18n-fe/log": "^1.0.17",
+    "@i18n-fe/package": "^1.0.17",
+    "@i18n-fe/utils": "^1.0.17"
   },
   "repository": {
     "type": "git",

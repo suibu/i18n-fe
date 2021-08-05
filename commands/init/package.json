@@ -1,6 +1,6 @@
 {
   "name": "@i18n-fe/init",
-  "version": "1.0.17-alpha.0",
+  "version": "1.0.17",
   "description": "> TODO: description",
   "author": "suibu <walk-liuyan@outlook.com>",
   "homepage": "https://github.com/suibu/i18n-fe/tree/main/core/init#readme",
@@ -27,7 +27,7 @@
     "url": "https://github.com/suibu/i18n-fe/issues"
   },
   "dependencies": {
-    "@i18n-fe/log": "^1.0.17-alpha.0"
+    "@i18n-fe/log": "^1.0.17"
   },
   "gitHead": "84bcdb4d4f7302525707f3daff34035ead2ceb21"
 }
