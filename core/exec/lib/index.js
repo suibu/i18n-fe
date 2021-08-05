@@ -5,6 +5,7 @@ const path = require('path')
 const log = require('@i18n-fe/log')
 const Package = require('@i18n-fe/package')
 
+// TODO:
 const SETTING = {
     init: '@i18n-fe/init'
 }
@@ -40,7 +41,9 @@ async function exec() {
     }
     const entryFile = pkg.entryFilePath()
     if (entryFile) {
+        // 在当前进程中调用
         require(entryFile)(pkgName, this.opts())
+        // 在node 子进程中调用
     }
 }
 module.exports = exec;
