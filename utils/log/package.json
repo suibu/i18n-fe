@@ -1,6 +1,6 @@
 {
   "name": "@i18n-fe/log",
-  "version": "1.0.17-alpha.0",
+  "version": "1.0.17",
   "description": "> TODO: description",
   "author": "suibu <walk-liuyan@outlook.com>",
   "homepage": "https://github.com/suibu/i18n-fe/tree/main/utils/log#readme",
@@ -29,5 +29,5 @@
   "dependencies": {
     "npmlog": "^4.1.2"
   },
-  "gitHead": "84bcdb4d4f7302525707f3daff34035ead2ceb21"
+  "gitHead": "3e8dba998f1c3f19edd98e18c4c55e37dffe9527"
 }
