@@ -82,15 +82,7 @@ class Check {
         }
     }
 
-    nodeVersion() {
-        // 1、当前node version
-        const curVersion = process.version;
-        // 2、比对 当前版本与最低版本
-        const lowestVersion = constant.LOWEST_NODE_VERSION
-        if (!semver.gte(curVersion, lowestVersion)) {
-            throw new Error(colors.red(`need more than node v14 +`))
-        }
-    }
+
 
 }
 const prepareCheck = new Check();

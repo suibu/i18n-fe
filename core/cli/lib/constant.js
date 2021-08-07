@@ -1,7 +1,5 @@
-const LOWEST_NODE_VERSION = '10.0.0';
 const DEFAULT_CLI_ENV_FILENAME = '.i18n-fe-cli'
 
 module.exports = {
-    LOWEST_NODE_VERSION,
     DEFAULT_CLI_ENV_FILENAME
 }

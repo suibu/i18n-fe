@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path')
+const child_process = require('child_process')
 
 const log = require('@i18n-fe/log')
 const Package = require('@i18n-fe/package')
@@ -41,9 +42,45 @@ async function exec() {
     }
     const entryFile = pkg.entryFilePath()
     if (entryFile) {
-        // 在当前进程中调用
-        require(entryFile)(pkgName, this.opts())
-        // 在node 子进程中调用
+        try {
+            // // 在当前进程中调用
+            // // 将对象转数组 Array.from(arguments)
+            // require(entryFile).call(null, Array.from(arguments))
+            // // 在node 子进程中调用
+
+            //使用多进行去执行
+            const args = [commandName, this.opts()]
+            const exec_code = `require('${entryFile}').call(null, ${JSON.stringify(args)})`
+            const child = spawn(exec_code, {
+                cwd: process.cwd(),
+                stdio: 'inherit'
+            });
+            child.on('error', (e) => {
+                console.log(e.message)
+                // 结束
+                process.exit(1)
+            })
+            child.on('exit', (code) => {
+                log.verbose('命令执行结束', code)
+            })
+        } catch (e) {
+            log.error(e.message)
+        }
     }
 }
+
+function spawn(exec_code, options) {
+    const isWin32 = process.platform === 'win32'
+    const command = isWin32 ? 'cmd' : 'node'
+    const comnArgs = ['-e', exec_code]
+    const args = isWin32 ? ['/c'].concat(comnArgs) : comnArgs
+    // 在window下应该是：child_process.spawn('cmd', ['/c', 'node','-e', exec_code],
+    // 在Mac下： child_process.spawn('node', ['-e', exec_code]
+    log.verbose('执行命令：', command, args)
+    const child = child_process.spawn(command, args, {
+        ...options
+    })
+    return child;
+}
+
 module.exports = exec;

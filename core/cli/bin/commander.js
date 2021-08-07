@@ -12,7 +12,6 @@ program
     .option('-D, --debug', '是否开启调试模式', false)
     .option('-E, --env <envname>', '环境变量' );
 
-// console.log(program._optionValues)
 
 
 // <> 代表必填参数 []可选项

@@ -68,14 +68,13 @@ function registryCommand() {
             process.env.DEBUG = '0'
         }
         log.level = process.env.LOG_LEVEL
-        console.log('process.env.LOG_LEVEL', process.env.LOG_LEVEL)
     })
     // 监听[options]:targetPath ->
     program.on('option:targetPath',  function () {
         const targetPath = this.opts().targetPath || null;
         process.env.CLI_TARGET_PATH = targetPath
-        console.log('process.env.CLI_TARGET_PATH', process.env.CLI_TARGET_PATH)
     })
+
     program
         .command('init [projectName]')
         .option('-f, --force', '是否强制初始化', false)
@@ -90,7 +89,6 @@ function registryCommand() {
         }
         process.exitCode = 1;
     });
-
 
     program.parse(process.argv);
 

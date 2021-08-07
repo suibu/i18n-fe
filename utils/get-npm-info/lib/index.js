@@ -37,9 +37,7 @@ async function getVersions(name, registry) {
 
 async function getNpmLatestVersion(name, version, registry) {
     const versions = await getVersions(name, registry)
-    console.log(versions, version)
     const satisfyVersions = getSemverVersions(version, versions)
-    console.log(satisfyVersions)
     if(satisfyVersions && satisfyVersions.length>0) {
         return satisfyVersions[0]
     }
