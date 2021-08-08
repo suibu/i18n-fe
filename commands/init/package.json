@@ -28,7 +28,9 @@
   },
   "dependencies": {
     "@i18n-fe/command": "file:../../models/command",
-    "@i18n-fe/log": "^1.0.19"
+    "@i18n-fe/log": "^1.0.19",
+    "fs-extra": "^10.0.0",
+    "inquirer": "^8.1.2"
   },
   "gitHead": "3e8dba998f1c3f19edd98e18c4c55e37dffe9527"
 }
