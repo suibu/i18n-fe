@@ -41,6 +41,7 @@
     "dedent": "0.7.0",
     "dotenv": "^10.0.0",
     "import-local": "^3.0.2",
+    "inquirer": "8.1.2",
     "npmlog": "^4.1.2",
     "path-exists": "^4.0.0",
     "root-check": "^1.0.0",
