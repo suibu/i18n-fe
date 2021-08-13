@@ -1,9 +1,9 @@
 {
-  "name": "@i18n-fe/init",
-  "version": "1.0.19",
+  "name": "@i18n-fe/request",
+  "version": "1.0.0",
   "description": "> TODO: description",
   "author": "suibu <walk-liuyan@outlook.com>",
-  "homepage": "https://github.com/suibu/i18n-fe/tree/main/core/init#readme",
+  "homepage": "https://github.com/suibu/i18n-fe/tree/main/core/request#readme",
   "license": "ISC",
   "main": "lib/index.js",
   "directories": {
@@ -27,15 +27,6 @@
     "url": "https://github.com/suibu/i18n-fe/issues"
   },
   "dependencies": {
-    "@i18n-fe/utils": "file:../../utils/utils",
-    "@i18n-fe/command": "file:../../models/command",
-    "@i18n-fe/log": "^1.0.19",
-    "@i18n-fe/package": "file:../../models/package",
-    "@i18n-fe/request": "file:../../utils/request",
-    "fs-extra": "^10.0.0",
-    "inquirer": "^8.1.2",
-    "semver": "7.3.5",
-    "user-home": "3.0.0"
-  },
-  "gitHead": "3e8dba998f1c3f19edd98e18c4c55e37dffe9527"
+    "axios": "0.21.1"
+  }
 }

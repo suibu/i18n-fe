@@ -3,16 +3,23 @@ const path = require('path');
 const fsExtra = require('fs-extra')
 
 const inquirer = require('inquirer')
+const semver = require('semver')
+const userHome = require('user-home')
 
 const log = require('@i18n-fe/log')
 const Command = require('@i18n-fe/command')
+const Package = require('@i18n-fe/package')
+const { spinnerStart, sleep } = require('@i18n-fe/utils')
+
+const { getProjectTempalte } = require('./server');
+const { resolve } = require('path');
 
 const typeChoices = [
     { name: 'project', type: 'PROJECT' },
     { name: 'component', type: 'COMPONENT' }
 ]
 
-function init(argv) {
+function init (argv) {
     const instance = new InitCommand(argv)
     return instance
 }
@@ -27,13 +34,13 @@ class InitCommand extends Command {
     }
 
     // 如果不实现initial，父类中会报错
-    initial() {
+    initial () {
         const { force } = this._options;
         this.force = force
         console.log('init command -init', this._options, this._cmd)
     }
 
-    async execute() {
+    async execute () {
         try {
             // 准备阶段
             await this._prepare()
@@ -46,44 +53,51 @@ class InitCommand extends Command {
         }
     }
 
-    async _prepare() {
+    async _prepare () {
+        // 0、判断项目模版是否存在
+        const templates = await getProjectTempalte();
+        console.log('templates', templates)
+        this.templates = templates;
+        if (!templates || templates.length === 0) {
+            throw new Error('项目模版不存在')
+        }
         // 1、判断当前目录是否为空
         const isEmpty = this._isCwdEmpty()
         let isContinue = false;
         // 若是 force：true，无需在过问那么多条件
 
-            // 非空就要去询问用户操作
-            if (!isEmpty) {
-                if (!this.force) {
-                    // 询问是否创建
-                    isContinue = (await inquirer.prompt({
-                        name: 'isContinue',
-                        type: 'confirm',
-                        message: '当前文件夹非空，是否继续创建项目？',
-                        default: false
-                    })).isContinue;
-                }
-                if (!isContinue) return;
-                if (isContinue || this.force) {
-                    // 2、是否启动强制更新
-                    const { confirmAgain } = await inquirer.prompt([{
-                        name: 'confirmAgain',
-                        type: 'confirm',
-                        message: '会否清空当前目录下的文件？',
-                        default: false
-                    }])
-                    if (confirmAgain) {
-                        // 清空当前目录
-                        fsExtra.emptyDirSync(this.localPath)
-                    }
-
+        // 非空就要去询问用户操作
+        if (!isEmpty) {
+            if (!this.force) {
+                // 询问是否创建
+                isContinue = (await inquirer.prompt({
+                    name: 'isContinue',
+                    type: 'confirm',
+                    message: '当前文件夹非空，是否继续创建项目？',
+                    default: false
+                })).isContinue;
+            }
+            if (!isContinue) return;
+            if (isContinue || this.force) {
+                // 2、是否启动强制更新
+                const { confirmAgain } = await inquirer.prompt([{
+                    name: 'confirmAgain',
+                    type: 'confirm',
+                    message: '会否清空当前目录下的文件？',
+                    default: false
+                }])
+                if (confirmAgain) {
+                    // 清空当前目录
+                    fsExtra.emptyDirSync(this.localPath)
                 }
 
             }
-            await this.getProjectInfo()
+
+        }
+        await this.getProjectInfo()
     }
 
-    async getProjectInfo() {
+    async getProjectInfo () {
         let projectInfo = {}
         // 3、选择创建项目/组件（后期项目平台/物料平台）
         const { type } = await inquirer.prompt({
@@ -146,18 +160,29 @@ class InitCommand extends Command {
                             }
                         },
                     },
+                    {
+                        type: "list",
+                        name: "projectTemplate",
+                        message: "请选择项目模版",
+                        choices: this.createTemplateChoice(),
+                    },
                 ]);
                 projectInfo = {
                     type,
                     ...project,
                 };
+                this.projectInfo = projectInfo
                 break;
             case "component":
                 break;
         }
     }
 
-    _isCwdEmpty() {
+    createTemplateChoice () {
+        return this.templates.map(({ npmName, name }) => ({ name, value: npmName }))
+    }
+
+    _isCwdEmpty () {
         log.module(this.constructor.name, '当前的执行目录', this.localPath)
         //  读出所有的文件列表
         let fileList = fsExtra.readdirSync(this.localPath);
@@ -170,11 +195,45 @@ class InitCommand extends Command {
         return fileList.length === 0;
     }
 
-    _downloadTemplate() {
+    // 先把文件下载到缓存目录
+    async _downloadTemplate () {
+        console.log(this.projectInfo)
+        // 在缓存目录下创建template文件夹
+        const targetPath = path.resolve(userHome, '.i18n-fe-cli', 'template')
+        const storePath = path.resolve(userHome, '.i18n-fe-cli', 'template', 'node_modules')
+        const { projectName, projectTemplate } = this.projectInfo
+        const templateInfo = this.templates.find(item => item.npmName === projectTemplate)
+        console.log('templateInfo', templateInfo)
+        const { npmName, version } = templateInfo;
 
+        const templateNpm = new Package({
+            targetPath,
+            storePath,
+            name: npmName,
+            version
+        })
+        try {
+            let spinner
+            // 看要下载的npm是否存在
+            if (!await templateNpm.exists()) {
+                spinner = spinnerStart('正在下载模版...')
+                // 让动画执行 1s
+                await sleep(1000)
+                await templateNpm.install()
+            } else {
+                spinner = spinnerStart('正在更新模版...')
+                await sleep(1000)
+                templateNpm.update();
+            }
+        } catch(e) {
+            console.error(e.message)
+            throw new Error(e.message)
+        } finally {
+            spinner.stop(true);
+        }
     }
 
-    _installTemplate() {
+    _installTemplate () {
 
     }
 

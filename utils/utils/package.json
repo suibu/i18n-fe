@@ -26,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/suibu/i18n-fe/issues"
   },
-  "gitHead": "3e8dba998f1c3f19edd98e18c4c55e37dffe9527"
+  "gitHead": "3e8dba998f1c3f19edd98e18c4c55e37dffe9527",
+  "dependencies": {
+    "cli-spinner": "0.2.10"
+  }
 }
