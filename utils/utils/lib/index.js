@@ -12,7 +12,11 @@ function spinnerStart (text = 'loading..') {
     return spinner
 }
 
+function sleep(timeout) {
+    return Promise.resolve(() => setTimeout(() => {}, timeout))
+}
 module.exports = {
     isObject,
-    spinnerStart
+    spinnerStart,
+    sleep
 };

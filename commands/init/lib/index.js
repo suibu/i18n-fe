@@ -20,11 +20,13 @@ const typeChoices = [
 ]
 
 function init (argv) {
+    console.log('argv', argv)
     const instance = new InitCommand(argv)
     return instance
 }
 
 class InitCommand extends Command {
+    templateInfo;
     force;
     constructor(argv) {
         super(argv);
@@ -202,9 +204,8 @@ class InitCommand extends Command {
         const targetPath = path.resolve(userHome, '.i18n-fe-cli', 'template')
         const storePath = path.resolve(userHome, '.i18n-fe-cli', 'template', 'node_modules')
         const { projectName, projectTemplate } = this.projectInfo
-        const templateInfo = this.templates.find(item => item.npmName === projectTemplate)
-        console.log('templateInfo', templateInfo)
-        const { npmName, version } = templateInfo;
+        this.templateInfo = this.templates.find(item => item.npmName === projectTemplate)
+        const { npmName, version } = this.templateInfo;
 
         const templateNpm = new Package({
             targetPath,
@@ -233,7 +234,10 @@ class InitCommand extends Command {
         }
     }
 
-    _installTemplate () {
+    // 将已经缓存的模版进行安装
+    async _installTemplate () {
+        console.log('templateInfo', this.templateInfo)
+        if(!this.templateInfo) throw new Error('没有模版信息，try again')
 
     }
 

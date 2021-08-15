@@ -27,11 +27,11 @@
     "url": "https://github.com/suibu/i18n-fe/issues"
   },
   "dependencies": {
-    "@i18n-fe/utils": "file:../../utils/utils",
     "@i18n-fe/command": "file:../../models/command",
     "@i18n-fe/log": "^1.0.19",
     "@i18n-fe/package": "file:../../models/package",
     "@i18n-fe/request": "file:../../utils/request",
+    "@i18n-fe/utils": "^1.0.19",
     "fs-extra": "^10.0.0",
     "inquirer": "^8.1.2",
     "semver": "7.3.5",

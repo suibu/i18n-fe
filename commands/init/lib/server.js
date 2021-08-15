@@ -10,12 +10,14 @@ const getProjectTempalte = async () => {
       {
         name: '黑客增长UI模版',
         npmName: 'i18n-fe-template-vue3',
-        version: '1.0.0-test.1'
+        version: '1.0.0-test.1',
+        type: 'normal'
       },
       {
         name: '内部系统管理后台模版-vue',
         npmName: 'i18n-fe-template-vue3',
-        version: '1.0.0-test.1'
+        version: '1.0.0-test.1',
+        type: 'custom'
       }
     ]
   }
