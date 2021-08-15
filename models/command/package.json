@@ -1,6 +1,6 @@
 {
   "name": "@i18n-fe/command",
-  "version": "1.0.0",
+  "version": "1.0.20",
   "description": "> TODO: description",
   "author": "suibu <walk-liuyan@outlook.com>",
   "homepage": "https://github.com/suibu/i18n-fe/tree/main/core/Command#readme",
@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@i18n-fe/log": "^1.0.19",
-    "@i18n-fe/utils": "^1.0.19",
+    "@i18n-fe/utils": "^1.0.20",
     "colors": "^1.4.0",
     "semver": "^7.3.5"
   }
