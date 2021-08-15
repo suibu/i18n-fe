@@ -213,8 +213,9 @@ class InitCommand extends Command {
             name: npmName,
             version
         })
+        let spinner
+
         try {
-            let spinner
             // 看要下载的npm是否存在
             if (!await templateNpm.exists()) {
                 spinner = spinnerStart('正在下载模版...')
@@ -231,6 +232,7 @@ class InitCommand extends Command {
             throw new Error(e.message)
         } finally {
             spinner.stop(true);
+            this._installTemplate()
         }
     }
 

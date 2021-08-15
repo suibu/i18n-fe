@@ -1,6 +1,6 @@
 {
   "name": "@i18n-fe/core",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "> TODO: description",
   "author": "suibu <walk-liuyan@outlook.com>",
   "homepage": "https://github.com/suibu/i18n-fe/tree/main/packages/core#readme",
@@ -31,11 +31,11 @@
     "url": "https://github.com/suibu/i18n-fe/issues"
   },
   "dependencies": {
-    "@i18n-fe/exec": "^1.0.19",
-    "@i18n-fe/get-npm-info": "^1.0.19",
-    "@i18n-fe/init": "^1.0.19",
+    "@i18n-fe/exec": "^1.0.20",
+    "@i18n-fe/get-npm-info": "^1.0.20",
+    "@i18n-fe/init": "^1.0.20",
     "@i18n-fe/log": "^1.0.19",
-    "@i18n-fe/utils": "^1.0.19",
+    "@i18n-fe/utils": "^1.0.20",
     "colors": "^1.4.0",
     "commander": "^8.0.0",
     "dedent": "0.7.0",
