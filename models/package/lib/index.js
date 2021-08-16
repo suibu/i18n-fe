@@ -122,7 +122,10 @@ class Package {
         const hasLatestPkg = await pathExists(pkgCachePath)
         if (!hasLatestPkg) {
             log.notice(`正在更新${this.packageName}@${lastestVersion}`)
-            return this.pureInstall(this.packageName, lastestVersion)
+            await this.pureInstall(this.packageName, lastestVersion)
+            this.packageVersion = lastestVersion
+        } else {
+            this.packageVersion = lastestVersion
         }
         // 如果是最新的，什么都不需要弄
     }

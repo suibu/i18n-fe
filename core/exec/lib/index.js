@@ -74,7 +74,7 @@ function spawn(exec_code, options) {
     const command = isWin32 ? 'cmd' : 'node'
     const comnArgs = ['-e', exec_code]
     const args = isWin32 ? ['/c'].concat(comnArgs) : comnArgs
-    // 在window下应该是：child_process.spawn('cmd', ['/c', 'node','-e', exec_code],
+    // 在window下应该是：child_process.spawn('cmd', ['/c', 'node','-e', exec_code], PS：window多个cmd的前缀
     // 在Mac下： child_process.spawn('node', ['-e', exec_code]
     log.verbose('执行命令：', command, args)
     const child = child_process.spawn(command, args, {
